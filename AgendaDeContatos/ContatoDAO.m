@@ -8,6 +8,8 @@
 
 #import "ContatoDAO.h"
 
+static ContatoDAO *defaultDao = nil;
+
 @implementation ContatoDAO
 -(id)init{
     self = [super init];
@@ -15,6 +17,12 @@
         self.contatos = [NSMutableArray new];
     }
     return self;
+}
++(ContatoDAO *) contatoDaoInstance{
+    if(!defaultDao){    
+        defaultDao = [ContatoDAO new];
+    }
+    return defaultDao;
 }
 -(void) adicionaContato:(Contato *)contato{
     [self.contatos addObject:contato];
@@ -25,4 +33,10 @@
 -(Contato *) idContato:(NSInteger) indice{
     return self.contatos [indice];
 }
+-(void) removeContato:(Contato *)contato{
+    [self.contatos removeObject:contato];
+}
+
+
+
 @end

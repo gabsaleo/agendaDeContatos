@@ -19,20 +19,32 @@
     
     self.navigationItem.rightBarButtonItem = botaoForm;
       self.navigationItem.title = @"Contatos";
-    self.dao = [ContatoDAO new];
+    
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    self.dao = [ContatoDAO contatoDaoInstance];
+    
     
     return self;
 }
 -(void) exibeFormulario{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ViewController *form= [storyboard instantiateViewControllerWithIdentifier:@"Form-Contato"];
-
-    form.dao = self.dao;
     
     
     [self.navigationController pushViewController:form animated:YES];
   
 }
+
+-(void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        Contato *contato = [self.dao idContato:indexPath.row];
+        [self.dao removeContato:contato];
+        
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:(UITableViewRowAnimationLeft)];
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.dao total];
 }
