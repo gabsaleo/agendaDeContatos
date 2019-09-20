@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ListaContatosViewController : UITableViewController
 
 @property ContatoDAO *dao;
-
+@property Contato *contatoSelecionado;
 @end
 
 NS_ASSUME_NONNULL_END

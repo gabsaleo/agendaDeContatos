@@ -15,10 +15,7 @@
 
 @implementation ViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
+
 -(id)initWithCoder: (NSCoder *) aDecoder{
     self = [super initWithCoder:aDecoder];
     if(self){
@@ -29,6 +26,14 @@
         
     }
     return self;
+}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.nome.text = self.contato.nome;
+    self.telefone.text = self.contato.telefone;
+    self.endereco.text = self.contato.endereco;
+    self.email.text = self.contato.email;
+    self.site.text = self.contato.site;
 }
 -(void) adiciona{
     Contato *contato = [Contato new];
