@@ -7,7 +7,6 @@
 //
 
 #import "ListaContatosViewController.h"
-#import "ViewController.h"
 #import "Contato.h"
 
 @implementation ListaContatosViewController
@@ -21,6 +20,7 @@
       self.navigationItem.title = @"Contatos";
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    self.linhaSelecionada = -1;
     
     self.dao = [ContatoDAO contatoDaoInstance];
     
@@ -30,9 +30,14 @@
 -(void) exibeFormulario{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ViewController *form= [storyboard instantiateViewControllerWithIdentifier:@"Form-Contato"];
+    
+    form.delegate = self;
+    
+    
     if(self.contatoSelecionado){
         form.contato = self.contatoSelecionado;
     }
+    
     self.contatoSelecionado = nil;
     
     [self.navigationController pushViewController:form animated:YES];
@@ -52,11 +57,7 @@
     self.contatoSelecionado = [self.dao idContato:indexPath.row];
     [self exibeFormulario];
     
-    
-    
 }
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.dao total];
 }
@@ -77,5 +78,30 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [self.tableView reloadData];
+}
+-(void) contatoAdicionado: (Contato *) contato{
+    self.linhaSelecionada = [self.dao indiceDoContato:contato];
+    NSString *mensagem = [NSString stringWithFormat:@"Contato %@ foi adicionado com sucesso!", contato.nome];
+    UIAlertController *alerta = [UIAlertController alertControllerWithTitle:@"Contato adicionado" message:mensagem preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+    
+    
+    [alerta addAction:ok];
+    
+    
+    [self presentViewController:alerta animated:YES completion:nil ];
+    
+    
+    NSLog(@"Adicionado %@", contato);
+}
+-(void) contatoEditado: (Contato *) contato{
+    self.linhaSelecionada = [self.dao indiceDoContato:contato];
+    NSLog(@"Atualizado %@", contato);
+}
+-(void) viewDidAppear:(BOOL)animated{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.linhaSelecionada inSection:0];
+    [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+    self.linhaSelecionada = -1;
 }
 @end

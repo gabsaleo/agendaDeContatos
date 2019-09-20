@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(Contato *) idContato:(NSInteger) indice;
 +(ContatoDAO *) contatoDaoInstance;
 -(void) removeContato: (Contato *) contato;
+-(NSInteger) indiceDoContato: (Contato *) contato;
 
 @end
 

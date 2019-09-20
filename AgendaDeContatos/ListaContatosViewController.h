@@ -8,13 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "ContatoDAO.h"
+#import "ViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ListaContatosViewController : UITableViewController
+@interface ListaContatosViewController : UITableViewController<ViewControllerDelegate>
 
 @property ContatoDAO *dao;
 @property Contato *contatoSelecionado;
+
+@property NSInteger linhaSelecionada;
+
 @end
 
 NS_ASSUME_NONNULL_END

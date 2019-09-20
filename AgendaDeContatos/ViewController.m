@@ -53,9 +53,15 @@
     [self.dao adicionaContato:self.contato];
     
     [self.navigationController popViewControllerAnimated:YES];
+    
+    [self.delegate contatoAdicionado: self.contato];
+    
 }
 -(void) altera{
     [self pegaDadosDoForm];
+    
+    [self.delegate contatoEditado: self.contato];
+    
     
     [self.navigationController popViewControllerAnimated:YES];
 }
